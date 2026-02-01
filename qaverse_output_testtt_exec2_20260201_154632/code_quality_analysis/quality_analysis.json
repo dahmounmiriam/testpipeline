@@ -1,0 +1,203 @@
+{
+  "eslint": {
+    "enabled": true,
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+      "ecmaVersion": 2021,
+      "sourceType": "module",
+      "project": "./tsconfig.json"
+    },
+    "env": {
+      "browser": true,
+      "node": true,
+      "es2021": true
+    },
+    "plugins": [
+      "@typescript-eslint",
+      "react",
+      "react-hooks",
+      "import"
+    ],
+    "extends": [
+      "eslint:recommended",
+      "plugin:@typescript-eslint/recommended",
+      "plugin:react/recommended",
+      "plugin:react-hooks/recommended",
+      "plugin:import/errors",
+      "plugin:import/warnings",
+      "plugin:import/typescript",
+      "plugin:prettier/recommended"
+    ],
+    "settings": {
+      "react": {
+        "version": "detect"
+      }
+    },
+    "rules": {
+      "no-magic-numbers": ["error", { "ignore": [0, 1], "ignoreArrayIndexes": true, "detectObjects": false }],
+      "complexity": ["error", 9],
+      "max-depth": ["error", 3],
+      "no-console": "warn",
+      "@typescript-eslint/no-explicit-any": "off",
+      "@typescript-eslint/explicit-function-return-type": "off"
+    },
+    "overrides": [
+      {
+        "files": ["*.ts", "*.tsx"],
+        "rules": {
+          "@typescript-eslint/explicit-function-return-type": "error"
+        }
+      }
+    ]
+  },
+  "prettier": {
+    "printWidth": 100,
+    "tabWidth": 2,
+    "semi": true,
+    "singleQuote": true,
+    "trailingComma": "all",
+    "bracketSpacing": true,
+    "arrowParens": "always",
+    "endOfLine": "auto"
+  },
+  "flake8": {
+    "maxLineLength": 88,
+    "extendIgnore": ["W503", "E203"],
+    "select": ["E", "F", "W", "C", "B", "B9"],
+    "plugins": [
+      "flake8-bugbear",
+      "flake8-comprehensions",
+      "flake8-magic-numbers"
+    ],
+    "perFileIgnores": {
+      "src/e2e_tests/*": ["M"]
+    }
+  },
+  "pylint": {
+    "disable": [
+      "C0114",
+      "C0115",
+      "C0116",
+      "R0903",
+      "R0201"
+    ],
+    "maxLineLength": 88,
+    "loadPlugins": [
+      "pylint.extensions.mccabe",
+      "pylint.extensions.typing"
+    ],
+    "goodNames": ["i", "j", "k", "_", "ex", "Run"]
+  },
+  "black": {
+    "lineLength": 88,
+    "targetVersion": [
+      "py38",
+      "py39",
+      "py310"
+    ],
+    "skipStringNormalization": false
+  },
+  "mypy": {
+    "strict": true,
+    "ignoreMissingImports": true,
+    "disallowUntypedDefs": true,
+    "warnUnusedConfigs": true
+  },
+  "sonarqube": {
+    "projectKey": "PROJECT",
+    "projectName": "PROJECT",
+    "organization": "ORG",
+    "sources": [
+      "src",
+      "app",
+      "e2e_tests"
+    ],
+    "qualityGate": {
+      "conditions": [
+        { "metric": "coverage", "threshold": 80 }
+      ]
+    },
+    "codingRules": [
+      {
+        "id": "S001",
+        "description": "Avoid magic numbers in Python",
+        "severity": "major"
+      }
+    ]
+  },
+  "coverage": {
+    "python": {
+      "tool": "pytest-cov",
+      "failUnder": 80,
+      "branch": true,
+      "omit": [
+        "tests/*",
+        "src/generated/*",
+        "docs/*"
+      ],
+      "reporters": ["term", "xml", "html"]
+    },
+    "javascript": {
+      "tool": "nyc",
+      "checkCoverage": true,
+      "lines": 80,
+      "functions": 80,
+      "branches": 80,
+      "statements": 80,
+      "reporters": ["text", "lcov"]
+    }
+  },
+  "dependency_scanning": {
+    "npm": {
+      "enabled": true,
+      "commands": ["npm audit", "npm outdated"],
+      "failOn": ["critical", "high"]
+    },
+    "pip": {
+      "enabled": true,
+      "commands": ["pip list --outdated", "pip-audit"],
+      "failOn": ["High", "Critical"]
+    }
+  },
+  "security_scanning": {
+    "snyk": {
+      "enabled": true,
+      "monitor": true,
+      "severityThreshold": "high"
+    },
+    "safety": {
+      "enabled": true,
+      "ignore": []
+    },
+    "pip_audit": {
+      "enabled": true,
+      "failOn": ["High", "Critical"]
+    }
+  },
+  "complexity": {
+    "javascript": {
+      "maxCyclomatic": 9,
+      "maxDepth": 3
+    },
+    "python": {
+      "maxCyclomatic": 9,
+      "maxDepth": 3
+    }
+  },
+  "code_smells_rules": {
+    "python": [
+      {
+        "file": "main.py",
+        "issue": "Magic numbers detected",
+        "action": "Refactor into named constants; move to config/constants.py"
+      }
+    ],
+    "typescript": [
+      {
+        "file": "e2e.spec.ts",
+        "issue": "Magic numbers detected",
+        "action": "Replace with named test data using constants.ts"
+      }
+    ]
+  }
+}
